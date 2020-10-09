@@ -15,6 +15,10 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 
+// var routes = require("./controllers/burgers_controller.js")
+
+// app.use(routes);
+
 
 
 
@@ -40,7 +44,7 @@ connection.connect(function(err) {
 
 
 
-const burgers = [
+const burgerList = [
     {
         id: 1, 
         name: "Bacon Burger",
@@ -60,10 +64,20 @@ const burgers = [
 
 // Routes = Controller =================================================================
 app.get("/", (req, res) => {
-    res.render("index", {
-        burgers: burgers
-    });
+
+    connection.query("SELECT * FROM burgers;", function(err, data) {
+        if (err) {
+          throw err;
+        }
+    
+        // Test:
+        console.log('The burgers are: ', data);
+    
+        res.render("index", { burgers: data });
+   
 })
+
+});
 
 app.get("/api/burgers", (req, res) => {
     //my SQL retrieves burgers array from DB
@@ -76,7 +90,17 @@ app.put("/api/burgers/:id", (req,res) => {
 
 
 app.post("/api/burgers", (req, res) => {
-    let newBurger = req.body;
+ // Test it.
+  console.log('You sent ' + req.body.newBurger);
+
+  connection.query("INSERT INTO burgers (burger_name) VALUES (?)", [req.body.newBurger], function(err, result) {
+    if (err) {
+      throw err;
+    }
+
+    res.redirect("/");
+  });
+
 })
 
 

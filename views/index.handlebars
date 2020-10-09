@@ -4,7 +4,7 @@
 {{#each burgers}}
 {{#unless devoured}}
     {{!-- render undevoured burgers here --}}   
-    <li>{{ name }} 
+    <li>{{ burger_name }} 
     <button data-id={{id}} class="eatBurgerBtn">Devour</button>
     </li>
 {{/unless}}
@@ -15,8 +15,18 @@
 {{#each burgers}}
 {{#if devoured}}
     {{!-- render devoured burgers here --}}
-    <li>{{ name }} </li>
+    <li>{{ burger_name }} </li>
 
 {{/if}}
 {{/each}}
 </ul>
+
+
+
+<div>
+  <form action="/api/burgers" method="POST">
+  	<textarea type="text" name="newBurger"></textarea>
+
+  	<button type="submit">Submit</button>
+  </form>
+</div>
