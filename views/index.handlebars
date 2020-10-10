@@ -68,8 +68,9 @@
     console.log("devour button clicked")
     event.preventDefault();
 
-    var id = $(this).data-("id")
-    console.log(id)
+    var id = $(this).data("id")
+    
+    console.log("id is "+ id)
 
     var updatedBurger = {
       burger: id
