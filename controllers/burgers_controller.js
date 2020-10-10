@@ -1,6 +1,12 @@
 var express = require("express");
 
 
+var router = express.Router();
+
+
+
+// ignore below =============================================================================================================================
+
 
 // app.get("/", (req, res) => {
 //     res.render("index", {
@@ -42,4 +48,4 @@ var express = require("express");
 // })
 
 
-module.exports = router;
+module.exports = routes;

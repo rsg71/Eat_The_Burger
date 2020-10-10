@@ -5,7 +5,7 @@
 {{#unless devoured}}
     {{!-- render undevoured burgers here --}}   
     <li>{{ burger_name }} 
-    <button data-id={{id}} class="eatBurgerBtn">Devour</button>
+    <button data-id="{{id}}" class="eatBurgerBtn">Devour</button>
     </li>
 {{/unless}}
 {{/each}}
@@ -38,19 +38,54 @@
 
 <script type="text/javascript">
 
+{{!-- 
+  $(".eatBurgerBtn").on("click", function(event) {
+    // Get the ID from the button.
+    // This is shorthand for $(this).attr("data-planid")
+    console.log("devour button clicked")
 
+    var id = $(this).data("id");
+    console.log(id)
 
-
+    // Send the DELETE request.
+    $.ajax("/devour/" + id, {
+      type: "DELETE"
+    }).then(
+      function() {
+        console.log("deleted id ", id);
+        // Reload the page to get the updated list
+        location.reload();
+      }
+    );
+  }); --}}
 
 
 
 
   
-   $(".eatBurgerBtn").on("submit", function(event) {
+   $(".eatBurgerBtn").on("click", function(event) {
     // Make sure to preventDefault on a submit event.
+    console.log("devour button clicked")
     event.preventDefault();
-    console.log("devour button clicked");
 
+    var id = $(this).data-("id")
+    console.log(id)
+
+    var updatedBurger = {
+      burger: id
+    };
+
+    // Send the PUT request.
+    $.ajax("/devour/" + id, {
+      type: "PUT",
+      data: updatedBurger
+    }).then(
+      function() {
+        console.log("updated id ", id);
+        // Reload the page to get the updated list
+        location.reload();
+      }
+    );
   });
 
 </script>

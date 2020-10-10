@@ -15,9 +15,12 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 
-// var routes = require("./controllers/burgers_controller.js")
+app.use(express.static('public'))
 
-// app.use(routes);
+var routes = require("./controllers/burgers_controller.js")
+
+app.use(routes);
+
 
 
 
@@ -44,6 +47,9 @@ connection.connect(function (err) {
 
 
 // Routes = Controller =================================================================
+
+
+
 
 
 // Use Handlebars to render the main index.html page with the list of all the burgers
@@ -103,7 +109,7 @@ app.post("/api/burgers", (req, res) => {
 
 // Update the burger
 app.put("/devour/:id", function(req, res) {
-    connection.query("UPDATE burgers SET devoured = ? WHERE id = ?", [true, req.params.id], function(err, result) {
+    connection.query("UPDATE burgers SET devoured = True WHERE id = ?", [req.params.id], function(err, result) {
       if (err) {
         // If an error occurred, send a generic server failure
         return res.status(500).end();
@@ -116,11 +122,6 @@ app.put("/devour/:id", function(req, res) {
   
     });
   });
-
-
-
-
-
 
 
 // Start our server so that it can begin listening to client requests.
