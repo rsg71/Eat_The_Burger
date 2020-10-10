@@ -71,8 +71,7 @@ app.get("/", (req, res) => {
 // })
 
 
-
-// Enter in a new burger
+//Add it to the devoured list
 app.post("/api/burgers", (req, res) => {
     // Test it.
     console.log('You sent ' + req.body.newBurger);
@@ -91,29 +90,35 @@ app.post("/api/burgers", (req, res) => {
 // ==========================================================================
 
 //Remove from undevoured list
-app.delete("/devour/:id", (req, res) => {
-    connection.query("DELETE FROM burgers WHERE id = ?", [req.params.id], function (err, result) {
-        console.log(req.params.id)
+// app.delete("/devour/:id", (req, res) => {
+//     connection.query("DELETE FROM burgers WHERE id = ?", [req.params.id], function (err, result) {
+//         console.log(req.params.id)
 
-        if (err) return console.log(err);
+//         if (err) return console.log(err);
 
-        res.status(200).end();
-    })
-})
+//         res.status(200).end();
+//     })
+// });
 
 
-//Add it to the devoured list
-app.post("/api/burgers", (req, res) => {
-    // Test it.
-    console.log('You sent ' + req.body.newBurger);
-
-    connection.query("INSERT INTO burgers (burger_name) VALUES (?)", [req.body.newBurger], function (err, result) {
-        if (err) {
-            throw err;
-        }
-        res.redirect("/");
+// Update the burger
+app.put("/devour/:id", function(req, res) {
+    connection.query("UPDATE burgers SET devoured = ? WHERE id = ?", [true, req.params.id], function(err, result) {
+      if (err) {
+        // If an error occurred, send a generic server failure
+        return res.status(500).end();
+      }
+      else if (result.changedRows === 0) {
+        // If no rows were changed, then the ID must not exist, so 404
+        return res.status(404).end();
+      }
+      res.status(200).end();
+  
     });
-})
+  });
+
+
+
 
 
 
